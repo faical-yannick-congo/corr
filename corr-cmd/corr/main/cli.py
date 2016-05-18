@@ -133,7 +133,7 @@ def handle(config, conx, register, sync, align, unregister,
         core.extension_all(extensions)
     elif newtag and name:
         extends = paths(clnk=clnk, api=api, elnk=elnk, ctsk=ctsk)
-        extends[0].tag(name=name, api=extends[1], elnk=extends[2], ctsk=extends[3])
+        print extends[0].tag(name=name, api=extends[1], elnk=extends[2], ctsk=extends[3])
     elif list:
         extends = paths(clnk=clnk, api=api, elnk=elnk, ctsk=ctsk)
         regs = extends[0].list(api=extends[1], elnk=extends[2], ctsk=extends[3])
@@ -149,19 +149,19 @@ def handle(config, conx, register, sync, align, unregister,
         extends[0].align(api=extends[1], elnk=extends[2], ctsk=extends[3])
     elif register and name:
         extends = paths(clnk=clnk, api=api, elnk=elnk, ctsk=ctsk)
-        extends[0].register(name=name, api=extends[1], elnk=extends[2], ctsk=extends[3])
+        print extends[0].register(name=name, api=extends[1], elnk=extends[2], ctsk=extends[3])
     elif sync:
         extends = paths(clnk=clnk, api=api, elnk=elnk, ctsk=ctsk)
         extends[0].sync(name=name, tag=tag, force=force, api=extends[1], elnk=extends[2], ctsk=extends[3])
     elif unregister:
         extends = paths(clnk=clnk, api=api, elnk=elnk, ctsk=ctsk)
-        extends[0].unregister(name=name, api=extends[1], elnk=extends[2], ctsk=extends[3])
+        print extends[0].unregister(name=name, api=extends[1], elnk=extends[2], ctsk=extends[3])
     elif watch and (name or tag):
         extends = paths(clnk=clnk, api=api, elnk=elnk, ctsk=ctsk)
-        extends[0].watch(name=name, tag=tag, api=extends[1], elnk=extends[2], ctsk=extends[3])
+        print extends[0].watch(name=name, tag=tag, api=extends[1], elnk=extends[2], ctsk=extends[3])
     elif unwatch and (name or tag):
         extends = paths(clnk=clnk, api=api, elnk=elnk, ctsk=ctsk)
-        extends[0].unwatch(name=name, tag=tag, api=extends[1], elnk=extends[2], ctsk=extends[3])
+        print extends[0].unwatch(name=name, tag=tag, api=extends[1], elnk=extends[2], ctsk=extends[3])
     else:
         if clnk:
           extensions = core.read_extend()

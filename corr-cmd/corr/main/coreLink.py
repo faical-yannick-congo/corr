@@ -50,7 +50,7 @@ from corr.main import core
 def handle(config, conx, name, host, port, key, tag,
            upload, file, env, path, obj, group, api):
     if config:
-        print configure(host=host, port=port, key=key)
+        print configure(path=path, host=host, port=port, key=key)
 
     if conx:
         config = core.read_config('default')
@@ -69,10 +69,10 @@ def handle(config, conx, name, host, port, key, tag,
             print "KO"
 
     if upload and file:
-        push_file(path=path, obj=obj, group=group)
+        print push_file(path=path, obj=obj, group=group)
 
     if upload and env:
-        push_env(name=name, tag=tag, path=path)
+        print push_env(name=name, tag=tag, path=path)
 
 def whois():
     return "CoreLink"
@@ -80,20 +80,32 @@ def whois():
 # change the way you configure access to the backend API.
 # Make sure you specify your configuration tag.
 # coreLink uses the default one.
-def configure(host=None, port=None, key=None):
+def configure(path=None, host=None, port=None, key=None):
     config = core.read_config('default')
-    if host is None and port is None and key is None:
-        return core.pretty_json(core.read_config())
-        # # print core.pretty_json(core.read_config())
+    if config:
+        try:
+            config = {}
+            with open(path, "r") as config_file:
+                config = json.loads(config_file.read())
+            for key, value in config.iteritems():
+                core.write_config(key, value)
+            return core.pretty_json(core.read_config())
+        except:
+            traceback.print_exc(file=sys.stdout)
+            return "Error: Could not find the config file."
     else:
-        if host:
-            config['api']['host'] = host
-        if port:
-            config['api']['port'] = port
-        if key:
-            config['api']['key'] = key
-        core.write_config('default', config)
-        return core.pretty_json({'default':config})
+        if host is None and port is None and key is None:
+            return core.pretty_json(core.read_config())
+            # # print core.pretty_json(core.read_config())
+        else:
+            if host:
+                config['api']['host'] = host
+            if port:
+                config['api']['port'] = port
+            if key:
+                config['api']['key'] = key
+            core.write_config('default', config)
+            return core.pretty_json({'default':config})
 
 # Change the way you access registrations.
 def find_by(regs=[], name=None, tag=None):
